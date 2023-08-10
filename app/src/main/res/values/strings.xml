@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NewPipe</string>
+    <string name="clear_text">Clear text</string>
+    <string name="go_back">Go back</string>
+    <string name="search_filters">Search filters</string>
+    <string name="enter_search_suggestion">Enter search suggestion</string>
 </resources>
