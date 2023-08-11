@@ -29,8 +29,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix '.debugrahul'
+        }
         release {
-            minifyEnabled false
+            applicationIdSuffix '.releaserahul'
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -91,4 +95,11 @@ dependencies {
     implementation "androidx.media3:media3-exoplayer-smoothstreaming:${media3Version}"
     implementation "androidx.media3:media3-ui:${media3Version}"
     implementation "androidx.media3:media3-session:${media3Version}"
+
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha12"
+    //TODO: remove this
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
+
+
+
 }
