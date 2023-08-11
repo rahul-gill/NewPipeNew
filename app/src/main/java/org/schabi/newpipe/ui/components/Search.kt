@@ -1,11 +1,15 @@
 package org.schabi.newpipe.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -14,6 +18,7 @@ import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.NorthWest
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,7 +39,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.schabi.newpipe.R
+import org.schabi.newpipe.ui.theme.MAX_CONTENT_WIDTH
+import org.schabi.newpipe.ui.theme.NewPipePreviews
 import org.schabi.newpipe.ui.theme.NewPipeTheme
+import org.schabi.newpipe.ui.theme.PreviewWrapper
 
 @Composable
 fun SearchAppBar(
@@ -46,18 +54,20 @@ fun SearchAppBar(
 ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
         IconButton(onClick = onBack) {
             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = stringResource(R.string.go_back))
         }
+
         TextField(
             value = searchQuery,
             onValueChange = onSearchQueryChange,
             modifier = Modifier
-                .weight(1f)
                 .padding(8.dp)
-                .height(40.dp),
+                .height(40.dp)
+                .weight(1f),
             trailingIcon = {
                 if (searchQuery.isNotBlank()) {
                     IconButton(
@@ -85,7 +95,7 @@ fun SearchAppBar(
             )
         )
         IconButton(onClick = onShowOptionItems) {
-            Icon(imageVector = Icons.Default.MoreVert, contentDescription = stringResource(R.string.search_filters))
+            Icon(imageVector = Icons.Default.Tune, contentDescription = stringResource(R.string.search_filters))
         }
     }
 }
@@ -115,7 +125,7 @@ fun SearchSuggestionItem(
 ){
     Card(
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.widthIn(max = MAX_CONTENT_WIDTH),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent,
             disabledContainerColor = Color.Transparent
@@ -123,7 +133,7 @@ fun SearchSuggestionItem(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().widthIn(max = MAX_CONTENT_WIDTH)
                 .padding(start = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -144,15 +154,17 @@ fun SearchSuggestionItem(
 }
 
 @Composable
-@Preview(showBackground = true)
+@NewPipePreviews
 private fun SearchViewPreview(){
-    NewPipeTheme{
+    PreviewWrapper{
         val text = remember {
             mutableStateOf("")
         }
         Scaffold(
+            modifier = Modifier.fillMaxSize(),
             topBar = {
                 SearchAppBar(
+                    modifier = Modifier.fillMaxWidth(),
                     searchQuery = text.value,
                     onSearchQueryChange = { text.value = it },
                     onBack = {},
@@ -160,7 +172,7 @@ private fun SearchViewPreview(){
                 )
             }
         ) {
-            Column(Modifier.padding(it)) {
+            Column(Modifier.padding(it).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 for(i in 0 until 5){
                     SearchSuggestionItem(
                         text = "Some search suggestion",
